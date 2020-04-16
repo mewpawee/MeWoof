@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class panScript : MonoBehaviour
 {
-    public bool panOn = true;
-    private float panTime = 0.0f;
-
+    private float fireLevel = 1.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,29 +15,47 @@ public class panScript : MonoBehaviour
     void Update()
     {
         Cooking();
-        CheckPan();
     }
+
+
 
     void Cooking() {
         if (steakScript.isCooking == true)
         {
-            panTime = panTime + Time.deltaTime;
-        }
-        else if (steakScript.isCooking == false && panTime >= 0) {
-            panTime = panTime + Time.deltaTime;
+            //cooking time = cookingtime + (cook factor * fire level * delta time)
+            steakScript.cookingTime = steakScript.cookingTime + (steakScript.cookFactor * fireLevel * Time.deltaTime);
+            CheckCooked();
         }
     }
 
-    void CheckPan() {
 
-        if (panTime > 10)
+    private void CheckCooked()
+    {
+        if (steakScript.cookingTime > 10)
         {
-            steakScript.state = 2;
+            steakScript.cookState = 2;
         }
-        else if (panTime > 5)
+        else if (steakScript.cookingTime > 5)
         {
-            steakScript.state = 1;
+            steakScript.cookState = 1;
         }
-        
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "steak")
+        {
+            steakScript.isCooking = true;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "steak")
+        {
+
+            steakScript.isCooking = false;
+        }
     }
 }

@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class steakScript : MonoBehaviour
 {
-    public static int state = 0;
+    public static int cookState = 0;
+    public static float cookingTime = 0.0f;
     public static bool isCooking = false;
+    public static float cookFactor = 1.1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,32 +18,15 @@ public class steakScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        StateLog();
+        CoolDown();
+        //Debug.Log(cookingTime);
+        Debug.Log(cookState);
     }
 
-    void StateLog() {
-
-        if (state == 1)
-        {
-            Debug.Log("cooked");
-        }
-        else if (state == 2) {
-            Debug.Log("overcooked");
-        }
+    private void CoolDown() { 
+            if (!isCooking && cookingTime > 0) {
+                cookingTime = cookingTime - Time.deltaTime;
+            }
     }
-    private void OnCollisionEnter(Collision collision)
-    { 
-        if (collision.gameObject.tag == "pan") {
-           isCooking = true;
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.tag == "pan")
-        {
-
-            isCooking = false;
-        }
-    }
+  
 }
