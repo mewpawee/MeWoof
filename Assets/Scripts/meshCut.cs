@@ -6,10 +6,9 @@ using EzySlice;
 using VRTK;
 public class meshCut : MonoBehaviour
 {
-    public TimeManager tm1;
     public Transform cutPlane;
     public LayerMask layerMask;
-    private bool isGrabed = true;
+
     // Start is called before the first frame update
 
     void Start()
@@ -21,15 +20,21 @@ public class meshCut : MonoBehaviour
     {
       
     }
- 
+    /*
+    private void OnTriggerEnter(Collider other)
+    {
+        
+    }
+    */
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 9) {
-            tm1.DoSlowMotion();
             Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(5, 0.1f, 5), cutPlane.rotation, layerMask);
 
             if (hits.Length <= 0)
+            {
                 return;
+            }
 
             for (int i = 0; i < hits.Length; i++)
             {
@@ -59,7 +64,7 @@ public class meshCut : MonoBehaviour
         go.gameObject.tag = parent.tag;
         go.AddComponent<steakScript>();
 
-        rb.AddExplosionForce(100, go.transform.position, 20);
+        rb.AddExplosionForce(10, go.transform.position, 20);
     }
 
     public SlicedHull SliceObject(GameObject obj, Material crossSectionMaterial = null)
