@@ -6,25 +6,26 @@ using EzySlice;
 using VRTK;
 public class meshCut : MonoBehaviour
 {
+    public TimeManager tm1;
     public Transform cutPlane;
     public LayerMask layerMask;
+    private bool isGrabed = true;
     // Start is called before the first frame update
 
     void Start()
     {
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+      
     }
-
+ 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == 9) {
+            tm1.DoSlowMotion();
             Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(5, 0.1f, 5), cutPlane.rotation, layerMask);
 
             if (hits.Length <= 0)

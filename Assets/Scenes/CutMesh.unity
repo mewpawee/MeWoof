@@ -846,7 +846,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 179518829}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.953, y: 1.169, z: 0.31}
+  m_LocalPosition: {x: 2.953, y: 1.169, z: -0.487}
   m_LocalScale: {x: 0.1, y: 0.05, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3647,10 +3647,10 @@ GameObject:
   - component: {fileID: 1249124122}
   - component: {fileID: 1249124126}
   - component: {fileID: 1249124121}
-  - component: {fileID: 1249124120}
-  - component: {fileID: 1249124119}
   - component: {fileID: 1249124118}
   - component: {fileID: 1249124117}
+  - component: {fileID: 1249124120}
+  - component: {fileID: 1249124119}
   m_Layer: 0
   m_Name: knife
   m_TagString: Untagged
@@ -3684,8 +3684,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nearTouchHighlight: {r: 0, g: 0, b: 0, a: 0}
   touchHighlight: {r: 0.735849, g: 0.14578141, b: 0.14578141, a: 0}
-  grabHighlight: {r: 0, g: 0, b: 0, a: 0}
-  useHighlight: {r: 0, g: 0, b: 0, a: 0}
+  grabHighlight: {r: 0.08419368, g: 0.8113208, b: 0.65948707, a: 0}
+  useHighlight: {r: 0.2407694, g: 0.13082945, b: 0.9245283, a: 0}
   objectToMonitor: {fileID: 0}
   objectToHighlight: {fileID: 0}
   objectHighlighter: {fileID: 0}
@@ -3744,17 +3744,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1249124115}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8afa0b205791c9f4496bf2814aeac078, type: 3}
+  m_Script: {fileID: 11500000, guid: 5ec2ac476f2fc9a45a4e69712580a603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   precisionGrab: 0
-  rightSnapHandle: {fileID: 1575675804}
+  rightSnapHandle: {fileID: 0}
   leftSnapHandle: {fileID: 0}
   throwVelocityWithAttachDistance: 0
   throwMultiplier: 1
   onGrabCollisionDelay: 0
-  destroyImmediatelyOnThrow: 1
-  breakForce: 1500
 --- !u!114 &1249124121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3779,8 +3777,8 @@ MonoBehaviour:
   allowedGrabControllers: 0
   grabAttachMechanicScript: {fileID: 1249124120}
   secondaryGrabActionScript: {fileID: 1249124119}
-  isUsable: 0
-  holdButtonToUse: 1
+  isUsable: 1
+  holdButtonToUse: 0
   useOnlyIfGrabbed: 0
   pointerActivatesUseAction: 0
   useOverrideButton: 0
@@ -3905,6 +3903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af35ba35a4f6d1041a2e49c93b2f0900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tm1: {fileID: 1304526712}
   cutPlane: {fileID: 566198542}
   layerMask:
     serializedVersion: 2
@@ -4013,6 +4012,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1276252318}
   m_CullTransparentMesh: 0
+--- !u!1 &1304526711
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1304526713}
+  - component: {fileID: 1304526712}
+  m_Layer: 0
+  m_Name: TimeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1304526712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304526711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c4349eb85b676345bbce7a5dfb826f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowdownFactor: 0.05
+  slowdownLength: 2
+--- !u!4 &1304526713
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304526711}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.953, y: 1.169, z: 0.31}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1306084864
 GameObject:
   m_ObjectHideFlags: 0
@@ -4099,6 +4143,7 @@ GameObject:
   - component: {fileID: 1377367778}
   - component: {fileID: 1377367780}
   - component: {fileID: 1377367779}
+  - component: {fileID: 1377367784}
   m_Layer: 0
   m_Name: LeftController
   m_TagString: Untagged
@@ -4264,6 +4309,22 @@ Transform:
   m_Father: {fileID: 1507489705}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1377367784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377367777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65eb64f0f2fd6d64faddbcf5d7d3bdbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useButton: 14
+  controllerEvents: {fileID: 0}
+  interactTouch: {fileID: 0}
+  interactGrab: {fileID: 0}
 --- !u!1 &1378939067
 GameObject:
   m_ObjectHideFlags: 0
@@ -4278,6 +4339,7 @@ GameObject:
   - component: {fileID: 1378939068}
   - component: {fileID: 1378939070}
   - component: {fileID: 1378939069}
+  - component: {fileID: 1378939074}
   m_Layer: 0
   m_Name: RightController
   m_TagString: Untagged
@@ -4443,6 +4505,22 @@ Transform:
   m_Father: {fileID: 1507489705}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1378939074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378939067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65eb64f0f2fd6d64faddbcf5d7d3bdbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useButton: 14
+  controllerEvents: {fileID: 0}
+  interactTouch: {fileID: 0}
+  interactGrab: {fileID: 0}
 --- !u!1 &1385380509
 GameObject:
   m_ObjectHideFlags: 0
