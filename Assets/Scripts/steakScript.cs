@@ -8,8 +8,12 @@ public class steakScript : MonoBehaviour
     public static float cookingTime = 0.0f;
     public static bool isCooking = false; 
     public static float cookFactor = 1.1f;
-
     // Start is called before the first frame update
+    void Awake()
+    {
+
+    }
+
     void Start()
     {
 
