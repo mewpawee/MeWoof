@@ -8,6 +8,8 @@ TagManager:
   - ExcludeTeleport
   - pan
   - steak
+  - Navigator
+  - Action
   layers:
   - Default
   - TransparentFX
