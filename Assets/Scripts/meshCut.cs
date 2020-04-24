@@ -44,9 +44,16 @@ public class meshCut : MonoBehaviour
                 {
                     GameObject bottom = hull.CreateLowerHull(hits[i].gameObject, crossMaterial);
                     GameObject top = hull.CreateUpperHull(hits[i].gameObject, crossMaterial);
-                    AddHullComponents(bottom, hits[i].gameObject);
-                    AddHullComponents(top, hits[i].gameObject);
-                    Destroy(hits[i].gameObject);
+                    try
+                    {
+                        AddHullComponents(bottom, hits[i].gameObject);
+                        AddHullComponents(top, hits[i].gameObject);
+                        Destroy(hits[i].gameObject);
+                    }
+                    catch
+                    {
+                        continue;
+                    }
                 }
             }
         }
