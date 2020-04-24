@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class panScript : MonoBehaviour
@@ -19,16 +18,18 @@ public class panScript : MonoBehaviour
 
     private void CheckCooked(GameObject obj)
     {
-        steakScript.cookingTime = steakScript.cookingTime + (steakScript.cookFactor * fireLevel * Time.deltaTime);
+        Component script = obj.GetComponent<steakScript>();
+            
+        obj.GetComponent<steakScript>().cookingTime = obj.GetComponent<steakScript>().cookingTime + (obj.GetComponent<steakScript>().cookFactor * fireLevel * Time.deltaTime);
 
-        if (steakScript.cookingTime > 10 && steakScript.cookState < 2 )
+        if (obj.GetComponent<steakScript>().cookingTime > 10 && obj.GetComponent<steakScript>().cookState < 2 )
         {
-            steakScript.cookState = 2;
+            obj.GetComponent<steakScript>().cookState = 2;
             obj.GetComponent<Renderer>().material = Manager.overCooked;
         }
-        else if (steakScript.cookingTime > 5 && steakScript.cookState < 1)
+        else if (obj.GetComponent<steakScript>().cookingTime > 5 && obj.GetComponent<steakScript>().cookState < 1)
         {
-            steakScript.cookState = 1;
+            obj.GetComponent<steakScript>().cookState = 1;
             obj.GetComponent<Renderer>().material = Manager.cooked;
         }
     }
@@ -38,8 +39,9 @@ public class panScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "steak")
         {
-            steakScript.isCooking = true;
-            StartCoroutine(Cooking(collision.gameObject));
+            GameObject obj = collision.gameObject;
+            obj.GetComponent<steakScript>().isCooking = true;
+            StartCoroutine(Cooking(obj));
         }
     }
 
@@ -47,14 +49,15 @@ public class panScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "steak")
         {
-            steakScript.isCooking = false;
-            StartCoroutine(steakScript.CoolDown());
+            GameObject obj = collision.gameObject;
+            obj.GetComponent<steakScript>().isCooking = false;
+            StartCoroutine(obj.GetComponent<steakScript>().CoolDown());
         }
     }
 
     IEnumerator Cooking(GameObject obj)
     {
-        while (steakScript.isCooking == true)
+        while (obj.GetComponent<steakScript>().isCooking == true)
         {
             CheckCooked(obj);
             yield return null;

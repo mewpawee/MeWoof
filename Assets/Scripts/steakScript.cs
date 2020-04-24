@@ -4,21 +4,11 @@ using UnityEngine;
 
 public class steakScript : MonoBehaviour
 {
-    public static int cookState = 0;
-    public static float cookingTime = 0.0f;
-    public static bool isCooking = false; 
-    public static float cookFactor = 1.1f;
-    // Start is called before the first frame update
-    void Awake()
-    {
+    public int cookState = 0;
+    public float cookingTime = 0.0f;
+    public bool isCooking = false; 
+    public float cookFactor = 1.1f;
 
-    }
-
-    void Start()
-    {
-
-    }
-    
     // Update is called once per frame
     void Update()
     {
@@ -27,7 +17,7 @@ public class steakScript : MonoBehaviour
         Debug.Log(cookingTime);
     }
 
-    public static IEnumerator CoolDown()
+    public IEnumerator CoolDown()
     {
         yield return null;
         while (!isCooking && cookingTime > 0)
