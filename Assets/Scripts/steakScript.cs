@@ -8,7 +8,7 @@ public class steakScript : MonoBehaviour
     public float cookingTime = 0.0f;
     public bool isCooking = false; 
     public float cookFactor = 1.1f;
-
+    public float volume = 100f;
     // Update is called once per frame
     void Update()
     {
