@@ -65,7 +65,7 @@ public class meshCut : MonoBehaviour
         rb.interpolation = RigidbodyInterpolation.Interpolate;
         MeshCollider collider = go.AddComponent<MeshCollider>();
         collider.convex = true;
-        rb.AddExplosionForce(50, go.transform.position,20);
+        rb.AddExplosionForce(30, go.transform.position,20);
         
         //add mesh
         //collider.convex = true;
