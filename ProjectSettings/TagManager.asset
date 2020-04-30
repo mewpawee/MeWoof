@@ -7,7 +7,6 @@ TagManager:
   - TeleportIgnore
   - ExcludeTeleport
   - pan
-  - steak
   - Leg
   - SnapCube
   - Arm
@@ -15,7 +14,8 @@ TagManager:
   - Saucers
   - Torso
   - Head
-  - Cuttable
+  - meat
+  - onion
   layers:
   - Default
   - TransparentFX
@@ -26,7 +26,7 @@ TagManager:
   - 
   - 
   - 
-  - Cuttable
+  - Ingredient
   - 
   - 
   - 

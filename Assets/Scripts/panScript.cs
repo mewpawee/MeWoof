@@ -5,6 +5,7 @@ public class panScript : MonoBehaviour
 {
     private float fireLevel = 1.0f;
     // Start is called before the first frame update
+
     void Start()
     {
         
@@ -18,46 +19,46 @@ public class panScript : MonoBehaviour
 
     private void CheckCooked(GameObject obj)
     {
-        Component script = obj.GetComponent<steakScript>();
+        ingredientScript script = obj.GetComponent<ingredientScript>();
             
-        obj.GetComponent<steakScript>().cookingTime = obj.GetComponent<steakScript>().cookingTime + (obj.GetComponent<steakScript>().cookFactor * fireLevel * Time.deltaTime);
+        script.ing.cookingTime = script.ing.cookingTime + (script.ing.cookFactor * fireLevel * Time.deltaTime);
 
-        if (obj.GetComponent<steakScript>().cookingTime > 10 && obj.GetComponent<steakScript>().cookState < 2 )
+        if (script.ing.cookingTime > 10 && script.ing.cookState < 2 )
         {
-            obj.GetComponent<steakScript>().cookState = 2;
-            obj.GetComponent<Renderer>().material = Manager.overCooked;
+            script.ing.cookState = 2;
+            obj.GetComponent<Renderer>().material = script.ing.overcooked;
         }
-        else if (obj.GetComponent<steakScript>().cookingTime > 5 && obj.GetComponent<steakScript>().cookState < 1)
+        else if (script.ing.cookingTime > 5 && script.ing.cookState < 1)
         {
-            obj.GetComponent<steakScript>().cookState = 1;
-            obj.GetComponent<Renderer>().material = Manager.cooked;
+            script.ing.cookState = 1;
+            obj.GetComponent<Renderer>().material = script.ing.cooked;
         }
     }
 
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "steak")
+        if (collision.gameObject.layer == 9)
         {
             GameObject obj = collision.gameObject;
-            obj.GetComponent<steakScript>().isCooking = true;
+            obj.GetComponent<ingredientScript>().ing.isCooking = true;
             StartCoroutine(Cooking(obj));
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.tag == "steak")
+        if (collision.gameObject.layer == 9)
         {
             GameObject obj = collision.gameObject;
-            obj.GetComponent<steakScript>().isCooking = false;
-            StartCoroutine(obj.GetComponent<steakScript>().CoolDown());
+            obj.GetComponent<ingredientScript>().ing.isCooking = false;
+            StartCoroutine(obj.GetComponent<ingredientScript>().CoolDown());
         }
     }
 
     IEnumerator Cooking(GameObject obj)
     {
-        while (obj.GetComponent<steakScript>().isCooking == true)
+        while (obj.GetComponent<ingredientScript>().ing.isCooking == true)
         {
             CheckCooked(obj);
             yield return null;
