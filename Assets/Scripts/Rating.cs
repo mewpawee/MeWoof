@@ -53,7 +53,7 @@ public class Rating : MonoBehaviour
             countSteak++;
             isSteakEnter = 0;
             cookRating();
-            steakRating = ratingDish(steakScore, countSteak, steakThreshold, questCountSteak);
+            steakRating = quantity(steakScore, countSteak, steakThreshold, questCountSteak);
         }
         //do more at here
         if (other.gameObject.tag == "onion" & isVegEnter == 1)
@@ -73,7 +73,7 @@ public class Rating : MonoBehaviour
             countVeg++;
             vegScore = vegScore + vegScoreTemp;
             isVegEnter = 0;
-            vegRating = ratingDish(vegScore, countVeg, vegThreshold, questCountveg);
+            vegRating = quantity(vegScore, countVeg, vegThreshold, questCountveg);
         }
     }
     private void OnTriggerExit(Collider other)
@@ -87,7 +87,7 @@ public class Rating : MonoBehaviour
         float ScoreTemp = (threshold - Math.Abs(volume - tempTreshold)) / threshold;
         return ScoreTemp;
     }
-    private float ratingDish(float score, float count, float treshold, float questCount)
+    private float quantity(float score, float count, float treshold, float questCount)
     {
         float rating;
         float countScore;
@@ -98,6 +98,13 @@ public class Rating : MonoBehaviour
         rating = 0.5f * countScore + 0.5f * rI / treshold;
         return rating;
     }
+    private float questRecipe()
+    {
+        float score = 0;
+        if (countSteak > 0) { score = score + 0.5f; }
+        if (countVeg > 0) { score = score + 0.5f; }
+        return score;
+    }
     private void cookRating()
     {
         if (cookingSteakState == 1) { cookingScore = 1; }
@@ -107,7 +114,7 @@ public class Rating : MonoBehaviour
     {
         //ratio volumeSteak:texture:volumeVeg = 4:5:1
         //able to change
-        Manager.score = 0.4f * steakRating  + 0.5f * cookingScore + 0.1f * vegRating;
+        Manager.score = 0.4f * (0.8f * steakRating + 0.2f * vegRating)  + 0.4f * cookingScore + 0.2f * questRecipe();
 
     }
     // Update is called once per frame
