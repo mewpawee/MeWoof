@@ -121,5 +121,10 @@ public class Rating : MonoBehaviour
     void Update()
     {
         calculateRating();
+        foreach (KeyValuePair<string, int> kvp in Manager.orderDetails)
+        {
+            Debug.Log(kvp.Key);
+            Debug.Log(kvp.Value);
+        }
     }
 }

@@ -60,7 +60,8 @@ public class Manager : MonoBehaviour
             countDown = countDown - Time.deltaTime;
         }
 
-        scoreGUI.text = "score: " + score.ToString() +"\n steakCount: " + Rating.countSteak + "/" + orderDetails["meat"] + "\n vegCount:" +Rating.countVeg + "/" + orderDetails["onion"];
+        //scoreGUI.text = "score: " + score.ToString() +"\n steakCount: " + Rating.countSteak + "/" + orderDetails["meat"] + "\n vegCount:" +Rating.countVeg + "/" + orderDetails["onion"];
+        scoreGUI.text = "score: " + score.ToString() + "\n steakCount: " + Ratingv2.ordered["meat"] + "/" + orderDetails["meat"] + "\n vegCount:" + Ratingv2.ordered["onion"] + "/" + orderDetails["onion"];
         if (countDown > 0)
         {
             countDownGUI.text = "time: " + countDown.ToString("F2");
