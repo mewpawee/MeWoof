@@ -18,9 +18,8 @@ public class StartButton : MonoBehaviour
     {
         if (GetComponent<VRTK_InteractableObject>().IsTouched())
         {
-            Manager manager = GameObject.Find("Manager").GetComponent<Manager>();
-            if (!manager.gameOn) {
-               manager.gameStart();
+            if (!Manager.gameOn) {
+               Manager.gameStart();
             }
         }
     }

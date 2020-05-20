@@ -4,7 +4,7 @@ using TMPro;
 using System.Runtime.Remoting;
 using UnityEngine.SocialPlatforms.Impl;
 using System;
-
+using System.Collections;
 public class ingredient {
     public int cookState = 0;
     public float cookingTime = 0.0f;
@@ -23,23 +23,31 @@ public class ingredient {
 
 public class Manager : MonoBehaviour
 {
+    //Materials
     public Material meatCooked;
     public Material meatOverCooked;
     public Material onionCooked;
     public Material onionOverCooked;
+
+    //Texts
     public TMP_Text scoreGUI;
     public TMP_Text countDownGUI;
     public TMP_Text scoreBoard;
+    public TMP_Text orderGUI;
+    public TMP_Text scoreGUITemp;
+
+    //Variables
+    static int menuCount = 1;
+    public static float scoreTemp = 0;
     public static float score = 0;
-    private float countDown = 10;
+    private float countDown = 300;
     public float highScore = 0;
-    public bool gameOn = false;
+    public static bool gameOn = false;
     string highScoreKey = "HighScore";
-    public static Dictionary<string, int> orderDetails = new Dictionary<string, int>();
+    public static Queue<Dictionary<string, int>> ordersQueue = new Queue<Dictionary<string, int>>();
+   
     private void Awake()
     {
-        orderDetails.Add("meat", 3);
-        orderDetails.Add("onion", 5);
         PlayerPrefs.SetFloat(highScoreKey, 0);
         PlayerPrefs.Save();
     }
@@ -48,6 +56,7 @@ public class Manager : MonoBehaviour
         highScore = PlayerPrefs.GetFloat(highScoreKey, 0);
         scoreBoard.text = "HighScore: " + highScore.ToString();
         scoreGUI.text = "score: " + score.ToString();
+        scoreGUITemp.text = "current score: " + scoreTemp.ToString();
         countDownGUI.text = "time: " + countDown.ToString("F2");
     }
 
@@ -58,27 +67,55 @@ public class Manager : MonoBehaviour
         if (gameOn)
         {
             countDown = countDown - Time.deltaTime;
+            updateOrderDetails();
         }
 
-        //scoreGUI.text = "score: " + score.ToString() +"\n steakCount: " + Rating.countSteak + "/" + orderDetails["meat"] + "\n vegCount:" +Rating.countVeg + "/" + orderDetails["onion"];
-        scoreGUI.text = "score: " + score.ToString() + "\n steakCount: " + Ratingv2.ordered["meat"] + "/" + orderDetails["meat"] + "\n vegCount:" + Ratingv2.ordered["onion"] + "/" + orderDetails["onion"];
+        scoreGUI.text = "score: " + score.ToString();
+        scoreGUITemp.text = "current score: " + scoreTemp.ToString();
+
         if (countDown > 0)
         {
             countDownGUI.text = "time: " + countDown.ToString("F2");
         }
         else {
             countDownGUI.text = "Timeup";
-            checkScore();
-            countDown = 10;
+            checkHighScore();
+            countDown = 300;
             gameOn = false;
         }
     }
-    public void gameStart() {
-        orderDetails["meat"] = UnityEngine.Random.Range(3,5);
-        orderDetails["onion"] = UnityEngine.Random.Range(3, 5);
-        GetComponent<Manager>().gameOn = true;
+    public static void gameStart() {
+        Manager.menuCount = 1;
+        ordersQueue.Clear();
+        ordersQueue.Enqueue(genOrderDetails());
+        ordersQueue.Enqueue(genOrderDetails());
+        gameOn = true;
+        Ratingv2.ordered = new Dictionary<string, int>();
+        foreach (string key in ordersQueue.Peek().Keys)
+        {
+            Ratingv2.ordered.Add(key, 0);
+        }
     }
-    void checkScore()
+
+    public static void submitDish()
+    {
+        ordersQueue.Dequeue();
+        score += scoreTemp;
+        menuCount++;
+        Ratingv2.ordered = new Dictionary<string, int>();
+        foreach (string key in ordersQueue.Peek().Keys)
+        {
+            Ratingv2.ordered.Add(key, 0);
+        }
+        foreach (GameObject obj in Ratingv2.ingredients) 
+        {
+            Destroy(obj);
+        }
+        ordersQueue.Enqueue(  genOrderDetails());
+        scoreTemp = 0;
+    }
+
+    void checkHighScore()
     {
         //If our scoree is greter than highscore, set new higscore and save.
         if (score > highScore)
@@ -87,12 +124,45 @@ public class Manager : MonoBehaviour
             PlayerPrefs.Save();
         }
     }
+    private static Dictionary<string,int> genOrderDetails() {
+         Dictionary<string, int> order = new Dictionary<string, int>();
+         List<string> meats = new List<string> {"meat","salmon","chicken"};
+         List<string> vegetables = new List<string> {"onion","carrot","asparagus"};
+         order.Add(meats[UnityEngine.Random.Range(0, meats.Count)], 3);
+         order.Add(vegetables[UnityEngine.Random.Range(0, vegetables.Count)], 5);
+         return order;
+    }
+
+    private void updateOrderDetails() {
+        orderGUI.text = "Menu: " + menuCount + "\n";
+        foreach (string key in ordersQueue.Peek().Keys)
+        {
+            orderGUI.text = orderGUI.text + key + ": " + Ratingv2.ordered[key] + "/" + ordersQueue.Peek()[key] + "\n";
+        }
+    }
 
     public static ingredient newIngrediant(string name) {
         Manager manager = GameObject.Find("Manager").GetComponent<Manager>();
         if (name == "meat")
             return new ingredient(1.1f, 200f, manager.meatCooked, manager.meatOverCooked);
-        else if (name == "onion") {
+        else if (name == "salmon")
+        {
+            return new ingredient(2.0f, 50f, manager.onionCooked, manager.onionOverCooked);
+        }
+        else if (name == "chicken")
+        {
+            return new ingredient(2.0f, 50f, manager.onionCooked, manager.onionOverCooked);
+        }
+        else if (name == "onion")
+        {
+            return new ingredient(2.0f, 50f, manager.onionCooked, manager.onionOverCooked);
+        }
+        else if (name == "carrot")
+        {
+            return new ingredient(2.0f, 50f, manager.onionCooked, manager.onionOverCooked);
+        }
+        else if (name == "asparagus")
+        {
             return new ingredient(2.0f, 50f, manager.onionCooked, manager.onionOverCooked);
         }
         else

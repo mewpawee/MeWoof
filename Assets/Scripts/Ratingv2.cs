@@ -15,25 +15,22 @@ public class Ratingv2 : MonoBehaviour
     private float upperBound;
     private float lowerBound;
     public static Dictionary<string, int> ordered = new Dictionary<string, int>();
-
+    public static List<GameObject> ingredients = new List<GameObject>();
 
     private void Start()
     {
-        foreach (string key in Manager.orderDetails.Keys)
-        {
-            ordered.Add(key, 0);
-        }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 9)
+        if(other.gameObject.layer == 9 && Manager.gameOn)
         {
             float volume = other.gameObject.GetComponent<ingredientScript>().ing.volume;
             cookingState = other.gameObject.GetComponent<ingredientScript>().ing.cookState;
             float tempMean = Manager.newIngrediant(other.gameObject.tag).volume / 4f;
             upperBound = tempMean + threshold;
             lowerBound = tempMean - threshold;
-            if (ordered.ContainsKey(other.gameObject.tag))
+            ingredients.Add(other.gameObject);
+            if (ordered.ContainsKey(other.gameObject.tag) )
             {
                 if (volume > lowerBound & volume < upperBound)
                 {
@@ -45,26 +42,23 @@ public class Ratingv2 : MonoBehaviour
                 }
                 ordered[other.gameObject.tag]++;
                 cookRating(cookingState);
-                scoreCount = quantity(scoreVolume, ordered[other.gameObject.tag], tempMean, Manager.orderDetails[other.gameObject.tag]);
+                scoreCount = quantity(scoreVolume, ordered[other.gameObject.tag], tempMean, Manager.ordersQueue.Peek()[other.gameObject.tag]);
                 //Manager.score = 0.4f * (0.8f * steakRating + 0.2f * vegRating) + 0.4f * cookingScore + 0.2f * questRecipe(ordered[other.gameObject.tag]);
-                Manager.score = 0.4f * scoreCount + 0.4f * scoreState + 0.2f * questRecipe(ordered[other.gameObject.tag]);
-                Manager.score = (float)Math.Round(Manager.score,2);
-            }
-            else
-            {
-                ordered.Add(other.gameObject.tag, 1);
+                Manager.scoreTemp = 0.4f * scoreCount + 0.4f * scoreState + 0.2f * questRecipe(ordered[other.gameObject.tag]);
+                Manager.scoreTemp = (float)Math.Round(Manager.scoreTemp,2);
             }
         }       
     }
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.layer == 9)
+        if(other.gameObject.layer == 9 && Manager.gameOn)
         {
             if (ordered.ContainsKey(other.gameObject.tag))
             {
-                Manager.score = Manager.score - (0.4f * scoreCount + 0.4f * scoreState + 0.2f * questRecipe(ordered[other.gameObject.tag]));
-                Manager.score = (float)Math.Round(Manager.score,2);
+                Manager.scoreTemp = Manager.scoreTemp - (0.4f * scoreCount + 0.4f * scoreState + 0.2f * questRecipe(ordered[other.gameObject.tag]));
+                Manager.scoreTemp = (float)Math.Round(Manager.scoreTemp,2);
                 ordered[other.gameObject.tag]--;
+                ingredients.Remove(other.gameObject);
             }
         }
     }
@@ -98,10 +92,8 @@ public class Ratingv2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (KeyValuePair<string, int> kvp in ordered)
-        {
-            Debug.Log(kvp.Key);
-            Debug.Log(kvp.Value);
+        foreach (GameObject list in ingredients) {
+            Debug.Log(list);
         }
     }
 }
