@@ -28,6 +28,15 @@ public class Manager : MonoBehaviour
     public Material meatOverCooked;
     public Material onionCooked;
     public Material onionOverCooked;
+    public Material chickenCooked;
+    public Material chickenOverCooked;
+    public Material salmonCooked;
+    public Material salmonOverCooked;
+    public Material asparagusCooked;
+    public Material asparagusOverCooked;
+    public Material carrotCooked;
+    public Material carrotOverCooked;
+
 
     //Texts
     public TMP_Text scoreGUI;
@@ -40,7 +49,7 @@ public class Manager : MonoBehaviour
     static int menuCount = 1;
     public static float scoreTemp = 0;
     public static float score = 0;
-    private float countDown = 300;
+    private float countDown = 304;
     public float highScore = 0;
     public static bool gameOn = false;
     string highScoreKey = "HighScore";
@@ -147,23 +156,23 @@ public class Manager : MonoBehaviour
             return new ingredient(1.1f, 200f, manager.meatCooked, manager.meatOverCooked);
         else if (name == "salmon")
         {
-            return new ingredient(2.0f, 50f, manager.onionCooked, manager.onionOverCooked);
+            return new ingredient(2.0f, 50f, manager.salmonCooked, manager.salmonOverCooked);
         }
         else if (name == "chicken")
         {
-            return new ingredient(2.0f, 50f, manager.onionCooked, manager.onionOverCooked);
+            return new ingredient(2.0f, 50f, manager.chickenCooked, manager.chickenOverCooked);
+        }
+        else if (name == "carrot")
+        {
+            return new ingredient(2.0f, 50f, manager.carrotCooked, manager.carrotOverCooked);
         }
         else if (name == "onion")
         {
             return new ingredient(2.0f, 50f, manager.onionCooked, manager.onionOverCooked);
         }
-        else if (name == "carrot")
-        {
-            return new ingredient(2.0f, 50f, manager.onionCooked, manager.onionOverCooked);
-        }
         else if (name == "asparagus")
         {
-            return new ingredient(2.0f, 50f, manager.onionCooked, manager.onionOverCooked);
+            return new ingredient(2.0f, 50f, manager.asparagusCooked, manager.asparagusOverCooked);
         }
         else
             return null;

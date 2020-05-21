@@ -4,6 +4,7 @@ using UnityEngine;
 public class panScript : MonoBehaviour
 {
     private float fireLevel = 1.0f;
+    private AudioSource AudioClip;
     // Start is called before the first frame update
 
     void Start()
@@ -14,7 +15,7 @@ public class panScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        AudioClip = GetComponent<AudioSource>();
     }
 
     private void CheckCooked(GameObject obj)
@@ -43,6 +44,7 @@ public class panScript : MonoBehaviour
             GameObject obj = collision.gameObject;
             obj.GetComponent<ingredientScript>().ing.isCooking = true;
             StartCoroutine(Cooking(obj));
+            AudioClip.Play();
         }
     }
 

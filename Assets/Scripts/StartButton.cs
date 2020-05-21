@@ -7,10 +7,11 @@ using VRTK;
 
 public class StartButton : MonoBehaviour
 {
+    private AudioSource AudioClip;
     // Start is called before the first frame update
     void Start()
     {
-
+        AudioClip = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -20,6 +21,7 @@ public class StartButton : MonoBehaviour
         {
             if (!Manager.gameOn) {
                Manager.gameStart();
+               AudioClip.Play();
             }
         }
     }

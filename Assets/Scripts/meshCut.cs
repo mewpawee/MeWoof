@@ -10,17 +10,19 @@ public class meshCut : MonoBehaviour
     public Transform cutPlane;
     public LayerMask layerMask;
     private bool isCut = true;
+    private AudioSource AudioClip;
 
     // Start is called before the first frame update
 
     void Start()
     {
+        AudioClip = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
    public void OnTriggerEnter(Collider other)
@@ -52,8 +54,10 @@ public class meshCut : MonoBehaviour
                 }
             }
             isCut = true;
+            AudioClip.Play();
             return;
         }
+        
     }
     public void AddHullComponents(GameObject go, GameObject parent)
     { 

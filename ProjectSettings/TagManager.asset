@@ -16,6 +16,10 @@ TagManager:
   - Head
   - meat
   - onion
+  - asparagus
+  - salmon
+  - carrot
+  - chicken
   layers:
   - Default
   - TransparentFX
