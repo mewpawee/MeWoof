@@ -21,7 +21,7 @@ public class SubmitButton : MonoBehaviour
         if (!GetComponent<VRTK_InteractableObject>().IsTouched()) {
             submitState = false;
         }
-        else if (GetComponent<VRTK_InteractableObject>().IsTouched() && !submitState)
+        else if (GetComponent<VRTK_InteractableObject>().IsTouched() && !submitState && Manager.gameOn)
         {   
             AudioClip.Play();
             submitState = true;

@@ -11,7 +11,7 @@ public class meshCut : MonoBehaviour
     public LayerMask layerMask;
     private bool isCut = true;
     private AudioSource AudioClip;
-
+    Quaternion defaultRotation;
     // Start is called before the first frame update
 
     void Start()
@@ -25,12 +25,21 @@ public class meshCut : MonoBehaviour
         
     }
 
-   public void OnTriggerEnter(Collider other)
+    void LateUpdate()
+    {
+        if (GetComponent<VRTK_InteractableObject>().IsGrabbed())
+        {
+            Quaternion rotationOffset = Quaternion.Euler(0, 90, 0);
+            transform.rotation = gameObject.transform.parent.rotation * rotationOffset;
+        }
+    }
+
+    public void OnTriggerEnter(Collider other)
     {
 
         if (other.gameObject.layer == 9 && isCut) {
 
-            Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(5, 0.1f, 5), cutPlane.rotation, layerMask);
+            Collider[] hits = Physics.OverlapBox(cutPlane.position, new Vector3(0.1f, 0.1f, 0.1f), cutPlane.rotation, layerMask);
             isCut = false;
             if (hits.Length <= 0)
             {

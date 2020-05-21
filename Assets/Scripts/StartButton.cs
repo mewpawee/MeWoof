@@ -8,6 +8,7 @@ using VRTK;
 public class StartButton : MonoBehaviour
 {
     private AudioSource AudioClip;
+    public static bool buttonState = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,11 +18,14 @@ public class StartButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GetComponent<VRTK_InteractableObject>().IsTouched())
+        if (GetComponent<VRTK_InteractableObject>().IsTouched() && Manager.gameOn == false)
         {
-            if (!Manager.gameOn) {
-               Manager.gameStart();
-               AudioClip.Play();
+            if (buttonState == false)
+            {
+                AudioClip.Play();
+                buttonState = true;
+                Manager.gameStart();
+                //StartCoroutine(startGame());
             }
         }
     }

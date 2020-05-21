@@ -49,12 +49,15 @@ public class Manager : MonoBehaviour
     static int menuCount = 1;
     public static float scoreTemp = 0;
     public static float score = 0;
-    private float countDown = 304;
+    private static float countDefault = 304;
+    private float countDown = countDefault;
     public float highScore = 0;
     public static bool gameOn = false;
     string highScoreKey = "HighScore";
     public static Queue<Dictionary<string, int>> ordersQueue = new Queue<Dictionary<string, int>>();
-   
+    public AudioSource AudioClip;
+    public AudioSource timeUp;
+
     private void Awake()
     {
         PlayerPrefs.SetFloat(highScoreKey, 0);
@@ -62,11 +65,12 @@ public class Manager : MonoBehaviour
     }
     void Start()
     {
+        AudioClip.Play();
         highScore = PlayerPrefs.GetFloat(highScoreKey, 0);
         scoreBoard.text = "HighScore: " + highScore.ToString();
         scoreGUI.text = "score: " + score.ToString();
         scoreGUITemp.text = "current score: " + scoreTemp.ToString();
-        countDownGUI.text = "time: " + countDown.ToString("F2");
+        countDownGUI.text = "Time: " + countDown.ToString("F2");
     }
 
     private void Update()
@@ -77,25 +81,29 @@ public class Manager : MonoBehaviour
         {
             countDown = countDown - Time.deltaTime;
             updateOrderDetails();
+            if (countDown > 0)
+            {
+                countDownGUI.text = "Time: " + countDown.ToString("F2");
+            }
+            else
+            {
+                timeUp.Play();
+                gameOn = false;
+                countDownGUI.text = "Timeup";
+                ordersQueue = new Queue<Dictionary<string, int>>();
+                checkHighScore();
+                countDown = countDefault;
+            }
         }
 
         scoreGUI.text = "score: " + score.ToString();
         scoreGUITemp.text = "current score: " + scoreTemp.ToString();
 
-        if (countDown > 0)
-        {
-            countDownGUI.text = "time: " + countDown.ToString("F2");
-        }
-        else {
-            countDownGUI.text = "Timeup";
-            checkHighScore();
-            countDown = 300;
-            gameOn = false;
-        }
+
     }
+
     public static void gameStart() {
-        Manager.menuCount = 1;
-        ordersQueue.Clear();
+        menuCount = 1;
         ordersQueue.Enqueue(genOrderDetails());
         ordersQueue.Enqueue(genOrderDetails());
         gameOn = true;
@@ -104,6 +112,7 @@ public class Manager : MonoBehaviour
         {
             Ratingv2.ordered.Add(key, 0);
         }
+        StartButton.buttonState = false;
     }
 
     public static void submitDish()
@@ -137,8 +146,8 @@ public class Manager : MonoBehaviour
          Dictionary<string, int> order = new Dictionary<string, int>();
          List<string> meats = new List<string> {"meat","salmon","chicken"};
          List<string> vegetables = new List<string> {"onion","carrot","asparagus"};
-         order.Add(meats[UnityEngine.Random.Range(0, meats.Count)], 3);
-         order.Add(vegetables[UnityEngine.Random.Range(0, vegetables.Count)], 5);
+         order.Add(meats[UnityEngine.Random.Range(0, meats.Count)], UnityEngine.Random.Range(3,5));
+         order.Add(vegetables[UnityEngine.Random.Range(0, vegetables.Count)], UnityEngine.Random.Range(3,5));
          return order;
     }
 
@@ -153,26 +162,26 @@ public class Manager : MonoBehaviour
     public static ingredient newIngrediant(string name) {
         Manager manager = GameObject.Find("Manager").GetComponent<Manager>();
         if (name == "meat")
-            return new ingredient(1.1f, 200f, manager.meatCooked, manager.meatOverCooked);
+            return new ingredient(0.5f, 200f, manager.meatCooked, manager.meatOverCooked);
         else if (name == "salmon")
         {
-            return new ingredient(2.0f, 50f, manager.salmonCooked, manager.salmonOverCooked);
+            return new ingredient(1.2f, 200f, manager.salmonCooked, manager.salmonOverCooked);
         }
         else if (name == "chicken")
         {
-            return new ingredient(2.0f, 50f, manager.chickenCooked, manager.chickenOverCooked);
+            return new ingredient(1.1f, 500f, manager.chickenCooked, manager.chickenOverCooked);
         }
         else if (name == "carrot")
         {
-            return new ingredient(2.0f, 50f, manager.carrotCooked, manager.carrotOverCooked);
+            return new ingredient(1.1f, 200f, manager.carrotCooked, manager.carrotOverCooked);
         }
         else if (name == "onion")
         {
-            return new ingredient(2.0f, 50f, manager.onionCooked, manager.onionOverCooked);
+            return new ingredient(1.1f, 264f, manager.onionCooked, manager.onionOverCooked);
         }
         else if (name == "asparagus")
         {
-            return new ingredient(2.0f, 50f, manager.asparagusCooked, manager.asparagusOverCooked);
+            return new ingredient(1.1f, 66f, manager.asparagusCooked, manager.asparagusOverCooked);
         }
         else
             return null;
